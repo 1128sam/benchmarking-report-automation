@@ -10,14 +10,13 @@ from pptx.enum.chart import XL_CHART_TYPE, XL_TICK_LABEL_POSITION
 from pptx.util import Inches, Pt
 from pptx.dml.color import RGBColor
 
-# --- Presentation Styles & Colors ---
 DARK_BLUE = RGBColor(22, 62, 100)
 LIGHT_BLUE = RGBColor(0, 160, 223)
 GOLD = RGBColor(255, 192, 0)
 GRAY_TEXT = RGBColor(89, 89, 89)
 
 # Streamlit App Configurations
-st.set_page_config(page_title="Benchmarking Deck Generator", layout="centered")
+st.set_page_config(page_title="Benchmark Report Generator", layout="centered")
 st.title("Benchmark Report Generator")
 st.write("Upload a benchmarking PDF report below to automatically generate your presentation.")
 
@@ -43,7 +42,6 @@ if uploaded_file is not None:
     company_name = "Benchmarking Client"
 
     with pdfplumber.open(uploaded_file) as pdf:
-        # Extract metadata from first page
         first_page_text = pdf.pages[0].extract_text().split("\n")
         for i, line in enumerate(first_page_text):
             if line.startswith("Active as of:") and (i + 1 < len(first_page_text)):
@@ -129,7 +127,7 @@ if uploaded_file is not None:
 
             slide = prs.slides.add_slide(blank_layout)
 
-            # Slide Header Elements
+            # Slide Header
             title_box = slide.shapes.add_textbox(Inches(0.8), Inches(0.5), Inches(11), Inches(1.5))
             tf = title_box.text_frame
             tf.word_wrap = True
@@ -148,7 +146,6 @@ if uploaded_file is not None:
             p_sub.font.size = Pt(18)
             p_sub.font.color.rgb = LIGHT_BLUE
 
-            # Native PowerPoint Chart Injection
             chart_data = CategoryChartData()
             chart_data.categories = categories_list
             chart_data.add_series("Percentage of Plans", percentages_list)
@@ -173,7 +170,6 @@ if uploaded_file is not None:
             plot.data_labels.font.color.rgb = GRAY_TEXT
             plot.data_labels.number_format = '0.0"%"'
 
-            # Color Bar Strategy
             series = chart.series[0]
             for idx, point in enumerate(series.points):
                 fill = point.format.fill
