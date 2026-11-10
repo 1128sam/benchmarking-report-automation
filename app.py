@@ -18,8 +18,8 @@ GRAY_TEXT = RGBColor(89, 89, 89)
 
 # Streamlit App Configurations
 st.set_page_config(page_title="Benchmarking Deck Generator", layout="centered")
-st.title("Benchmarking Presentation Generator")
-st.write("Upload a benchmarking PDF report below to automatically generate your PPTX slide deck.")
+st.title("Benchmark Report Generator")
+st.write("Upload a benchmarking PDF report below to automatically generate your presentation.")
 
 uploaded_file = st.file_uploader("Choose a Benchmarking PDF file", type=["pdf"])
 
